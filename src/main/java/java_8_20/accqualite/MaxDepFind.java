@@ -1,4 +1,4 @@
-package Java8.accqualite;
+package java_8_20.accqualite;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,43 +21,30 @@ public class MaxDepFind {
                 new Department(102, "Delhi")
         );
 
-
-        Map<Integer, Map<String, Long>> map = employees.stream()
-                .collect(Collectors.groupingBy(
-                        e -> e.depId,
-                        Collectors.groupingBy(
-                                e -> e.designation,
-                                Collectors.counting()
-                        )
-                ));
-
-        //collect dep in map
-        Map<Integer, String> depMap = departments.stream().collect(Collectors.toMap(
-                department -> department.depId,
-                department -> department.city
+        Map<Integer,String>depMap = departments.stream().collect(Collectors.toMap(
+                dep->dep.depId,
+                dep->dep.city
         ));
+        Map<Integer,Map<String, Long>> empByDepId = employees.stream().collect(Collectors.groupingBy(
+                emp->emp.depId,
 
-        Map<String,String> desgCity = new HashMap<>();
+                Collectors.groupingBy(
+                        emp->emp.designation,
+                        Collectors.counting()
+                )
+		  ));
 
-        map.forEach((depid,freq)->{
 
-            Map.Entry<String, Long> maxDesignationEntry = freq.entrySet().stream().max(Comparator.comparingLong(e -> e.getValue())).get();
+        empByDepId.forEach((depId,degCount)->{
 
-          //  Department department1 = departments.stream().filter(department -> department.depId == depid).findFirst().orElse(new Department(105,"goa"));
+            Map.Entry<String,Long> entry = degCount.entrySet().stream().max(Comparator.comparing(Map.Entry::getValue)).get();
 
-            if(depMap.get(depid)!=null) {
-                //System.out.println(depMap.get(depid) + ":" + maxDesignationEntry.getKey());
-                desgCity.put(depMap.get(depid),maxDesignationEntry.getKey());
-            }
+            String city = depMap.get(depId);
 
-           /* if(department1!=null)
-            {
-                desgCity.put(department1.city,maxDesignationEntry.getKey());
-            }*/
+            if(city!=null)
+            System.out.println(entry.getKey()+":"+city);
 
         });
 
-        System.out.println(map);
-        System.out.println(desgCity);
     }
 }

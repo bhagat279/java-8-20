@@ -1,4 +1,4 @@
-package Java8.accqualite;
+package java_8_20.accqualite;
 
 public class Department {
     int depId;
