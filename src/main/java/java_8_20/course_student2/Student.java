@@ -58,14 +58,13 @@ class Main {
         // List of courses
         List<Course> courses = Arrays.asList(course1, course2, course3);
 
-        Course course = courses.stream()
-                .max(Comparator.comparing(
-                        c1 -> c1.getStudents().stream().mapToDouble(s1 -> s1.getGrade()).sum()
-                )).get();
+        Course courseWithMaxGrade = courses.stream().max(Comparator.comparing(course ->
+                course.getStudents().stream().mapToDouble(student -> student.getGrade()).sum()
+        )).get();
 
-      double sum=  course.getStudents().stream().mapToDouble(s1 -> s1.getGrade()).sum();
+       double totalGrade = courseWithMaxGrade.getStudents().stream().mapToDouble(st->st.getGrade()).sum();
 
-        System.out.println(course.getCourseName()+":"+sum);
+        System.out.println(courseWithMaxGrade.getCourseName()+":"+totalGrade);
 
     }
 }

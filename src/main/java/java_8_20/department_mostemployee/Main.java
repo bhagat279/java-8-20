@@ -37,12 +37,12 @@ public class Main {
 
         List<Employee> employees = Arrays.asList(
                 new Employee("Alice", "HR"),
-                new Employee("Bob", "Engineering"),
+                new Employee("Bob", "HR"),
                 new Employee("Charlie", "HR"),
                 new Employee("Diana", "Engineering"),
                 new Employee("Eve", "Sales"),
                 new Employee("Frank", "Engineering"),
-                new Employee("Grace", "HR")
+                new Employee("Grace", "Engineering")
         );
 
         Map<String, Long> map = employees.stream().collect(Collectors.groupingBy(
@@ -50,12 +50,10 @@ public class Main {
                 Collectors.counting()
         ));
 
-        Map.Entry<String, Long> stringLongEntry = map.entrySet().stream().sorted(Comparator.comparing(Map.Entry<String, Long>::getValue)
 
-                .reversed()
-                .thenComparing(Map.Entry::getKey)
-
-        ).findFirst().get();
+        Map.Entry<String, Long> stringLongEntry = map.entrySet().stream().max(Comparator.comparing((Map.Entry<String, Long> e) -> e.getValue())
+                .thenComparing(e->e.getKey())
+        ).get();
 
 
         System.out.println(stringLongEntry.getKey());
