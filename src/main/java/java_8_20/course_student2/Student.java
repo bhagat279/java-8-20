@@ -3,6 +3,7 @@ package java_8_20.course_student2;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Stream;
 
 //Given a list of Student and Course objects, write a program to find the course that has the highest total grades and
 // print the course name along with the total grades.
@@ -57,13 +58,14 @@ class Main {
         // List of courses
         List<Course> courses = Arrays.asList(course1, course2, course3);
 
-       Course c= courses.stream().max(Comparator.comparingDouble(course->
-                course.getStudents().stream().mapToDouble(s1->s1.getGrade()).sum()
-        )).get();
+        Course course = courses.stream()
+                .max(Comparator.comparing(
+                        c1 -> c1.getStudents().stream().mapToDouble(s1 -> s1.getGrade()).sum()
+                )).get();
 
-        double sum = c.getStudents().stream().mapToDouble(s1 -> s1.getGrade()).sum();
+      double sum=  course.getStudents().stream().mapToDouble(s1 -> s1.getGrade()).sum();
 
-        System.out.println(c.getCourseName()+":"+sum);
+        System.out.println(course.getCourseName()+":"+sum);
 
     }
 }
